@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
     android:layout_height="match_parent"
-
+android:background="@color/white"
     android:orientation="vertical">
 
 
@@ -100,6 +100,24 @@
                 >
             <com.google.android.material.textfield.TextInputLayout
 
+                android:id="@+id/textInputLayoutConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInputEditTextConfirmpassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Password"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:textColor="@android:color/black" />
+            </com.google.android.material.textfield.TextInputLayout
+                >
+
+            <com.google.android.material.textfield.TextInputLayout
+
                 android:id="@+id/textInputLayoutAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -117,23 +135,22 @@
                 >
 
 
-            <com.google.android.material.textfield.TextInputLayout
-
-                android:id="@+id/textInputLayoutArea"
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="17dp"
+                android:hint="Street/Area"
+                android:textColor="@color/black"
+                android:inputType="text"
+                android:singleLine="true"
+                android:maxLines="1">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textInputEditTextArea"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Street / Area"
-                    android:singleLine="true"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:textColor="@android:color/black" />
-            </com.google.android.material.textfield.TextInputLayout>
+                <requestFocus />
+            </AutoCompleteTextView>
+
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -150,25 +167,6 @@
                     android:hint="City"
                     android:inputType="text"
                     android:singleLine="true"
-                    android:maxLines="1"
-                    android:textColor="@android:color/black" />
-            </com.google.android.material.textfield.TextInputLayout
-                >
-            <com.google.android.material.textfield.TextInputLayout
-
-                android:id="@+id/textInputLayoutpincode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textInputEditTextpincode"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Pincode"
-                    android:singleLine="true"
-                    android:inputType="number"
-                    android:maxLength="6"
                     android:maxLines="1"
                     android:textColor="@android:color/black" />
             </com.google.android.material.textfield.TextInputLayout

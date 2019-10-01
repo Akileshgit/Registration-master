@@ -15,11 +15,12 @@ public interface RetrofitInterface {
     Call<Response> uploadImage(@Part("firmname") RequestBody firmname,
                                @Part("ownername") RequestBody ownername,
                                @Part("email") RequestBody email,
+                               @Part("password") RequestBody password,
                                @Part("mobile") RequestBody mobile,
                                @Part("address") RequestBody address,
                                @Part("area") RequestBody area,
                                @Part("city") RequestBody city,
-                               @Part("pincode") RequestBody pincode,
+
                                @Part MultipartBody.Part image,
                                @Part MultipartBody.Part image1,
                                @Part MultipartBody.Part image2);

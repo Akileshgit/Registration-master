@@ -9,14 +9,18 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -46,6 +50,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    String[] Area = {"Agara" , "Banashankari" ,"Bannerghatta" ,"Bellandur" ,"J P nagar" ,"Jayanagar" ,"BTM Layout","Hsr Layout","Koramangala"};
+
     private final AppCompatActivity activity = MainActivity.this;
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -73,12 +79,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextInputEditText textInputEditFirmName;
     private TextInputEditText textInputEditTextUserName;
     private TextInputEditText textInputEditTextAddress;
-    private TextInputEditText textInputEditTextArea;
+    private AutoCompleteTextView textInputEditTextArea;
     private TextInputEditText textInputEditTextCity;
     private TextInputEditText textInputEditTextMobileNum;
     private TextInputEditText textInputEditTextConfirmEmail;
+    private TextInputEditText textInputEditTextConfirmpassword;
 
-    private TextInputEditText textInputEditTextConfirmPincode;
+
+    private Spinner spinner;
 
 
     private Button appCompatButtonRegister;
@@ -94,7 +102,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //Creating the instance of ArrayAdapter containing list of fruit names
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                (this, android.R.layout.select_dialog_item, Area);
+        //Getting the instance of AutoCompleteTextView
+        AutoCompleteTextView actv = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
+        actv.setThreshold(1);//will start working from first character
+        actv.setAdapter(adapter);//setting the adapter data into the AutoCompleteTextView
+        actv.setTextColor(Color.BLACK);
         initViews();
 
 
@@ -137,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textInputLayoutFirmName = (TextInputLayout) findViewById(R.id.textInputLayoutFirmName);
         textInputLayoutUserName = (TextInputLayout) findViewById(R.id.textInputLayoutUsername);
         textInputLayoutAddress =  (TextInputLayout)findViewById(R.id.textInputLayoutAddress);
-        textInputLayoutArea =  (TextInputLayout)findViewById(R.id.textInputLayoutArea);
+
         textInputLayoutCity =  (TextInputLayout)findViewById(R.id.textInputLayoutCity);
         textInputLayoutMobileNum =  (TextInputLayout)findViewById(R.id.textInputLayoutMobileNum);
         textInputLayoutConfirmEmail =  (TextInputLayout)findViewById(R.id.textInputLayoutConfirmEmail);
@@ -145,11 +160,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textInputEditFirmName = (TextInputEditText) findViewById(R.id.textInputEditTextFirmName);
         textInputEditTextUserName = (TextInputEditText)findViewById(R.id.textInputEditTextUsername);
         textInputEditTextAddress = (TextInputEditText) findViewById(R.id.textInputEditTextAddress);
-        textInputEditTextArea =(TextInputEditText) findViewById(R.id.textInputEditTextArea);
+        textInputEditTextArea = findViewById(R.id.autoCompleteTextView);
         textInputEditTextCity = (TextInputEditText)findViewById(R.id.textInputEditTextCity);
         textInputEditTextMobileNum = (TextInputEditText)findViewById(R.id.textInputEditTextMobileNum);
         textInputEditTextConfirmEmail = (TextInputEditText)findViewById(R.id.textInputEditTextConfirmEmail);
-        textInputEditTextConfirmPincode=(TextInputEditText)findViewById(R.id.textInputEditTextpincode);
+
+        textInputEditTextConfirmpassword=(TextInputEditText)findViewById(R.id.textInputEditTextConfirmpassword);
 
         profileImageView = (CircleImageView) findViewById(R.id.profileImageView);
         profileImageView1 = (CircleImageView)findViewById(R.id.profileImageView1);
@@ -235,6 +251,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Toast.makeText(getApplicationContext(),"Enter your Email Id",Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if(TextUtils.isEmpty(textInputEditTextConfirmpassword.getText())){
+
+                    Toast.makeText(getApplicationContext(),"Enter your Password",Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 if(TextUtils.isEmpty(textInputEditTextArea.getText())){
 
@@ -252,11 +273,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return;
                 }
 
-                if(TextUtils.isEmpty(textInputEditTextConfirmPincode.getText())){
 
-                    Toast.makeText(getApplicationContext(),"Enter your Pincode",Toast.LENGTH_SHORT).show();
-                    return;
-                }
 
 
 
@@ -458,7 +475,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String cityy = textInputEditTextCity.getText().toString().trim();
             String mobilenum = textInputEditTextMobileNum.getText().toString().trim();
             String email = textInputEditTextConfirmEmail.getText().toString().trim();
-            String pincode = textInputEditTextConfirmPincode.getText().toString().trim();
+            String password = textInputEditTextConfirmpassword.getText().toString().trim();
+
 
 
 
@@ -468,12 +486,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     RequestBody.create(MediaType.parse("text/plain"), firmname),
                     RequestBody.create(MediaType.parse("text/plain"), username),
                     RequestBody.create(MediaType.parse("text/plain"), email),
+                    RequestBody.create(MediaType.parse("text/plain"),password),
                     RequestBody.create(MediaType.parse("text/plain"), mobilenum),
                     RequestBody.create(MediaType.parse("text/plain"), addres),
                     RequestBody.create(MediaType.parse("text/plain"), area),
                     RequestBody.create(MediaType.parse("text/plain"), cityy),
-                    RequestBody.create(MediaType.parse("text/plain"), pincode)
-                    , img1, img2, img3);
+                     img1, img2, img3);
             mProgressBar.setVisibility(View.VISIBLE);
             call.enqueue(new Callback<Response>() {
                 @Override
@@ -497,8 +515,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         textInputEditTextCity.getText().clear();
                         textInputEditTextMobileNum.getText().clear();
                         textInputEditTextConfirmEmail.getText().clear();
+                        textInputEditTextConfirmpassword.getText().clear();
 
-                        textInputEditTextConfirmPincode.getText().clear();
+
                         profileImageView.setImageResource(android.R.color.transparent);
 
                         profileImageView1.setImageResource(android.R.color.transparent);

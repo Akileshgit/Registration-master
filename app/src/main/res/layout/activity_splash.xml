@@ -31,7 +31,6 @@
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="22sp"
-        android:textStyle="bold"
         tools:layout_editor_absoluteX="10dp"
         tools:layout_editor_absoluteY="326dp" />
 
